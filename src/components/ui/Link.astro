@@ -1,4 +1,10 @@
 ---
+// Icons
+import ShopIcon from '@/icons/Shop.astro'
+import InstagramIcon from '@/icons/Instagram.astro'
+import FacebookIcon from '@/icons/Facebook.astro'
+import WhasappIcon from '@/icons/Whatsapp.astro'
+
 interface Props {
   href: string
   text: string
@@ -6,14 +12,29 @@ interface Props {
 }
 
 const { href, text, icon } = Astro.props
+
+// Diccionario de íconos disponibles
+const icons: Record<string, any> = {
+  shop: ShopIcon,
+  instagram: InstagramIcon,
+  facebook: FacebookIcon,
+  whatsapp: WhasappIcon,
+}
+
+// Seleccionar el componente correcto
+const SelectedIcon = icons[icon] || null
 ---
 
 <a
   href={href}
   target="_blank"
   rel="noopener noreferrer"
-  class="w-full text-white flex items-center justify-center text-lg font-normal bg-[#3b3b3b] rounded-full shadow-lg px-4 py-4 hover:scale-105 transition-transform duration-150 select-none"
+  class="w-full group relative border-4 border-gray-50 bg-gradient-to-r from-[#bf3b4d] to-[#cf4053] p-3 rounded-full hover:from-[#822733] hover:to-[#b53849] transition-all duration-300 ease-in-out shadow-gray-300/50 shadow-xl cursor-pointer flex items-center justify-center gap-1 hover:scale-110 hover:-translate-y-1"
 >
-  <span>{text}</span>
-  <span class="ml-2">{icon}</span>
+  <span class="text-gray-50 font-semibold text-xl">{text}</span>
+  {
+    SelectedIcon && (
+      <SelectedIcon class="w-6 h-6 text-gray-100 dark:text-white group-hover:rotate-360 mt-1 ease-in-out transition-transform duration-500" />
+    )
+  }
 </a>

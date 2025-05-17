@@ -1,11 +1,57 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+// Components
+import Layout from '@/layouts/Layout.astro'
+import SubtitleAnimation from '@/components/SubtitleAnimation.tsx'
+import Switch from '@/components/ui/Switch.astro'
+import Link from '@/components/ui/Link.astro'
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Other
+import { name, links } from '@data'
+
 ---
 
 <Layout>
-	<Welcome />
+  <div class="flex flex-col items-center flex-1 w-full">
+    <!-- Profile -->
+    <div class="flex flex-col items-center justify-center mt-8">
+      <img
+        src="/anavende_logo.png"
+        alt="avatar"
+        class="w-28 h-28 shadow-xl border-4 border-white object-contain bg-[#F9F4F0]"
+      />
+      <h1 class="mt-2 mb-1 text-3xl font-bold text-[#222] uppercase">{name}</h1>
+    </div>
+    <div class="w-full max-w-xl">
+      <SubtitleAnimation client:load />
+    </div>
+    <!-- Buttons -->
+    <div class="w-full max-w-xl flex flex-col gap-5 mt-8">
+      {
+        links.map((link) => (
+          <Link href={link.url} text={link.text} icon={link.icon} />
+        ))
+      }
+    </div>
+    <!--
+    <footer
+      class="w-full max-w-xl mx-auto mt-12 flex flex-col items-center gap-3 pb-6"
+    >
+      <div class="flex flex-row gap-4 mb-2">
+        {
+          socials.map((s) => (
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener"
+              class="w-10 h-10 bg-[#3b3b3b] text-white rounded-full flex items-center justify-center shadow-md text-xl hover:scale-110 transition"
+            >
+              <Instagram />
+            </a>
+          ))
+        }
+      </div>
+      <p class="text-gray-500 text-sm">©2024 - Bruce Wayne</p>
+    </footer>
+    -->
+  </div>
 </Layout>

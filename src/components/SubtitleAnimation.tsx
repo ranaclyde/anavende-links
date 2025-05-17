@@ -1,16 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const subtitleArray = [
-  "La Tecnología",
-  "Los Auriculares 🎧",
-  "Los Joysticks 🎮",
-  "Los Cables 🔌",
-  "Los Parlantes 🔊",
-  "Los Teclados ⌨️",
-  "Los Mouses 🖱️",
-  "Los Pendrives 💾",
-  "Las Consolas 🕹️",
-];
+import { animatedSubtitle } from '@data'
 
 const SubtitleAnimation = () => {
   const [text, setText] = useState<string>('');
@@ -19,7 +9,7 @@ const SubtitleAnimation = () => {
   const [typingSpeed, setTypingSpeed] = useState<number>(100);
 
   useEffect(() => {
-    const current: string = subtitleArray[loopIndex % subtitleArray.length];
+    const current: string = animatedSubtitle[loopIndex % animatedSubtitle.length];
 
     const handleTyping = () => {
       if (isDeleting) {
