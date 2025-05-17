@@ -1,0 +1,58 @@
+{
+  "name": "Ana Vende",
+  "animatedSubtitle": [
+    "La Tecnología",
+    "Los Auriculares 🎧",
+    "Los Joysticks 🎮",
+    "Los Cables 🔌",
+    "Los Parlantes 🔊",
+    "Los Teclados ⌨️",
+    "Los Mouses 🖱️",
+    "Los Pendrives 💾",
+    "Las Consolas 🕹️"
+  ],
+  "links": [
+    {
+      "text": "Mi catálogo de productos",
+      "icon": "shop",
+      "url": "https://wa.me/c/5492920408825"
+    },
+    {
+      "text": "Seguime en Instagram",
+      "icon": "instagram",
+      "url": "https://instagram.com/ana.vende?igshid=dze5uaqztf6b"
+    },
+    {
+      "text": "Seguime en Facebook",
+      "icon": "facebook",
+      "url": "https://www.facebook.com/share/1DkJhA2h81/"
+    },
+    {
+      "text": "Escribime a mi WhatsApp",
+      "icon": "whatsapp",
+      "url": "https://wa.link/fy395o"
+    }
+  ],
+  "socials": [
+    {
+      "icon": "instagram",
+      "url": "https://instagram.com/"
+    },
+    {
+      "icon": "x",
+      "url": "https://twitter.com/"
+    },
+    {
+      "icon": "github",
+      "url": "https://github.com/"
+    },
+    {
+      "icon": "x",
+      "url": "https://tiktok.com/"
+    },
+    {
+      "icon": "instagram",
+      "url": "https://twitch.tv/"
+    }
+  ]
+}
