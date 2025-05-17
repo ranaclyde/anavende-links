@@ -1,18 +1,39 @@
 ---
 import '../styles/global.css'
+
+const title = 'Ana Vende - Enlaces'
+const description =
+  'Conectá conmigo en mis redes sociales. Instagram, Facebook, WhatsApp y más.'
+const url = 'https://anavende-links.netlify.app/'
+const image = 'https://anavende-links.netlify.app/anavende_logo.png' // opcional para redes
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+
+    <!-- Open Graph (Facebook y otros) -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image} />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
-    <title>Ana Vende - Enlaces</title>
   </head>
   <body class="bg-[#e3e3e3] min-h-screen flex flex-col px-2.5">
     <slot />
