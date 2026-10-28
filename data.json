@@ -13,13 +13,21 @@
   ],
   "links": [
     {
+      "title": "Tienda online",
+      "caption": "anavende.com.ar",
+      "action": "Entrá a la tienda",
+      "text": "Visitá mi tienda online",
+      "icon": "web",
+      "url": "https://anavende.com.ar",
+      "featured": true
+    },
+    {
       "title": "Catálogo",
       "caption": "Mirá los productos en WhatsApp",
       "text": "Mi catálogo de productos",
       "icon": "shop",
       "url": "https://wa.me/c/5492920408825",
-      "featured": true,
-      "action": "Ver el catálogo"
+      "shape": "blister"
     },
     {
       "title": "Instagram",
@@ -43,7 +51,7 @@
       "text": "Escribime a mi WhatsApp",
       "icon": "whatsapp",
       "url": "https://wa.link/fy395o",
-      "shape": "blister"
+      "shape": "tie"
     }
   ],
   "socials": [
