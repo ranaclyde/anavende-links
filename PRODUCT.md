@@ -21,8 +21,6 @@ A single "link in bio"-style page that turns a physical card into an online rela
 
 Success: the visitor opens the main store website, **anavende.com.ar**. Secondary success: they open the WhatsApp catalog, follow on Instagram or Facebook, or message on WhatsApp.
 
-While anavende.com.ar is not yet operational, the WhatsApp catalog takes the primary spot and the store link is left off the page. It is added back, as primary, once the site is live.
-
 ## Positioning
 
 Ana Vende is a person-to-person seller of tech accessories ("Vos elegís la tecnología": headphones, joysticks, cables, speakers, keyboards, mice, pendrives, consoles). The page is the online continuation of a face-to-face sale or a fair conversation, not an anonymous e-commerce storefront.
@@ -30,7 +28,7 @@ Ana Vende is a person-to-person seller of tech accessories ("Vos elegís la tecn
 ## Operating Context
 
 - Entry is via QR on a printed card, not via social bios or search.
-- Channels: website anavende.com.ar (primary once live), WhatsApp catalog, Instagram, Facebook, WhatsApp direct chat.
+- Channels: website anavende.com.ar (primary), WhatsApp catalog, Instagram, Facebook, WhatsApp direct chat.
 - Content (name, subtitle phrases, links) lives in `data.json`.
 - Static Astro site deployed on Netlify at anavende-links.netlify.app.
 
