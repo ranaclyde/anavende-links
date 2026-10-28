@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-28T00:00:00Z",
+  "title": "Design System: Ana Vende",
+  "extensions": {
+    "colorMeta": {
+      "bordo": { "role": "primary", "displayName": "Stand Bordó", "canonical": "oklch(41.6% 0.124 16.9)", "tonalRamp": ["#190405", "#3f1519", "#692b31", "#96434a", "#bc646a", "#d78e91", "#f1b9ba", "#ffe4e5"] },
+      "bordo-deep": { "role": "primary", "displayName": "Punched-Hole Bordó", "canonical": "oklch(28.0% 0.084 17.4)", "tonalRamp": ["#150607", "#381c1d", "#5e3436", "#874f51", "#ab7071", "#c89697", "#e5bebf", "#ffe7e8"] },
+      "sun": { "role": "secondary", "displayName": "Sticker Yellow", "canonical": "oklch(83.4% 0.158 89.0)", "tonalRamp": ["#140900", "#352100", "#5a3c00", "#825a00", "#a57c00", "#c2a149", "#dfc78a", "#fdedc7"] },
+      "paper": { "role": "neutral", "displayName": "Card Stock", "canonical": "oklch(97.4% 0.006 84.6)", "tonalRamp": ["#0c0b09", "#262522", "#43423f", "#63615e", "#84827e", "#a7a5a1", "#cbc9c5", "#f0eeea"] },
+      "ink": { "role": "neutral", "displayName": "Printed Ink", "canonical": "oklch(33.1% 0.098 15.9)", "tonalRamp": ["#170507", "#3a1a1c", "#623135", "#8d4b50", "#b16c70", "#cd9396", "#e9bcbe", "#ffe6e7"] },
+      "rose": { "role": "neutral", "displayName": "Blush Print", "canonical": "oklch(91.0% 0.028 6.7)", "tonalRamp": ["#150609", "#311f23", "#503c3f", "#705b5e", "#927c7f", "#b69ea2", "#dac2c6", "#ffe7eb"] },
+      "steel": { "role": "neutral", "displayName": "Hook Steel", "canonical": "oklch(83.0% 0.008 241.7)", "tonalRamp": ["#080c0e", "#222629", "#3e4346", "#5d6265", "#7e8387", "#a1a6aa", "#c5cace", "#eaeff3"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The stand's name on the sign, uppercase. Only here." },
+      "headline": { "displayName": "Headline", "purpose": "Title of the yellow store card." },
+      "title": { "displayName": "Title", "purpose": "Titles of the secondary hang cards." },
+      "body": { "displayName": "Body", "purpose": "The typed 'Vos elegís…' line on the sign; the rotating word at 800 in bordó." },
+      "caption": { "displayName": "Caption", "purpose": "Line under each card title; store card steps up to 1rem / 650." },
+      "label": { "displayName": "Label", "purpose": "Price-tag category names on the wire." },
+      "action": { "displayName": "Action", "purpose": "Store card action bar text." }
+    },
+    "shadows": [
+      { "name": "hanging-drop", "value": "drop-shadow(0 10px 9px rgb(25 3 7 / 0.45)) drop-shadow(0 2px 2px rgb(25 3 7 / 0.3))", "purpose": "filter on the sign and every card; follows die-cut silhouettes." },
+      { "name": "hook-drop", "value": "drop-shadow(1px 3px 2px rgb(25 3 7 / 0.4))", "purpose": "filter on the steel hooks." },
+      { "name": "punched-slot", "value": "inset 0 2px 3px rgb(25 3 7 / 0.55)", "purpose": "box-shadow for hang slots cut into cards." },
+      { "name": "wire", "value": "0 2px 2px rgb(25 3 7 / 0.35)", "purpose": "box-shadow under the price-tag wire." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Sign entrance, press scale, arrow slide, featured hop." },
+      { "name": "hang-drop", "value": "1150ms cubic-bezier(0.25, 0.8, 0.35, 1), delay i*90ms + 260ms", "purpose": "Damped pendulum settle as each card drops onto its hook." },
+      { "name": "swing", "value": "950ms cubic-bezier(0.3, 0.7, 0.4, 1)", "purpose": "Touch or mouse-enter oscillation from the hook." },
+      { "name": "hop", "value": "650ms ease-out", "purpose": "Two-hook store card bounces instead of swinging." },
+      { "name": "nudge", "value": "7s ease-in-out 4.5s infinite", "purpose": "Periodic attention hop on the store card." },
+      { "name": "scroll-sway", "value": "--sway clamped to ±5deg, spring 0.12 / decay 0.88", "purpose": "Scroll velocity rocks all hung pieces slightly." },
+      { "name": "rail", "value": "38s linear infinite", "purpose": "Price-tag wire scroll." },
+      { "name": "reduced-motion", "value": "all animation none", "purpose": "Everything static; wire becomes horizontally scrollable." }
+    ],
+    "breakpoints": [
+      { "name": "column", "value": "460px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Featured Store Card",
+      "kind": "card",
+      "refersTo": "card-featured",
+      "description": "The single yellow card for the primary destination, hung from two hooks, with a bordó action bar.",
+      "html": "<a class=\"ds-tag ds-tag--featured\" href=\"#\"><span class=\"ds-slot ds-slot--l\"></span><span class=\"ds-slot ds-slot--r\"></span><span class=\"ds-tile ds-tile--featured\"><svg viewBox=\"0 0 24 24\" width=\"32\" height=\"32\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"9\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18\" stroke=\"currentColor\" stroke-width=\"1.5\"/></svg></span><span class=\"ds-tag-text\"><span class=\"ds-tag-title\">Tienda online</span><span class=\"ds-tag-caption\">anavende.com.ar</span></span><span class=\"ds-action\">Entrá a la tienda<svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\"><path d=\"M4 12H20M20 12L14 6M20 12L14 18\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span></a>",
+      "css": ".ds-tag--featured { position: relative; display: grid; grid-template-columns: 56px 1fr; column-gap: 14px; align-items: center; max-width: 420px; padding: 34px 18px 18px; border-radius: 10px; background: #f2c230; color: #4a1219; text-decoration: none; font-family: 'Archivo Variable', system-ui, sans-serif; filter: drop-shadow(0 10px 9px rgb(25 3 7 / 0.45)) drop-shadow(0 2px 2px rgb(25 3 7 / 0.3)); transition: scale 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-tag--featured:active { scale: 0.97; } .ds-tag--featured:focus-visible { outline: 3px solid #f2c230; outline-offset: 4px; } .ds-slot { position: absolute; top: 9px; width: 30px; height: 8px; border-radius: 4px; background: #822733; box-shadow: inset 0 2px 3px rgb(25 3 7 / 0.55); } .ds-slot--l { left: calc(50% - 127px); } .ds-slot--r { left: calc(50% + 97px); } .ds-tile--featured { display: grid; place-items: center; width: 56px; height: 56px; border: 2.5px solid #4a1219; border-radius: 4px; background: #f8f6f2; color: #4a1219; } .ds-tag--featured .ds-tag-text { display: flex; flex-direction: column; } .ds-tag--featured .ds-tag-title { font-size: 2rem; font-weight: 900; font-stretch: 118%; line-height: 1.05; letter-spacing: -0.01em; } .ds-tag--featured .ds-tag-caption { margin-top: 2px; font-size: 1rem; font-weight: 650; } .ds-action { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; min-height: 52px; margin-top: 16px; padding: 0 16px; border-radius: 8px; background: #822733; color: #f8f6f2; font-size: 1.05rem; font-weight: 800; font-stretch: 108%; } .ds-action svg { transition: translate 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-tag--featured:hover .ds-action svg { translate: 4px 0; }"
+    },
+    {
+      "name": "Tie Tag Card",
+      "kind": "card",
+      "refersTo": "card-tie",
+      "description": "Default paper hang card for social channels: cut top corners, round hole, small resting tilt.",
+      "html": "<a class=\"ds-tie\" href=\"#\"><span class=\"ds-hole\"></span><span class=\"ds-tile-sm\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5\" stroke=\"currentColor\" stroke-width=\"1.5\"/><circle cx=\"12\" cy=\"12\" r=\"4\" stroke=\"currentColor\" stroke-width=\"1.5\"/><circle cx=\"17.5\" cy=\"6.5\" r=\"1\" fill=\"currentColor\"/></svg></span><span class=\"ds-tie-title\">Instagram</span><span class=\"ds-tie-caption\">@ana.vende</span></a>",
+      "css": ".ds-tie { position: relative; display: flex; flex-direction: column; align-items: flex-start; width: 170px; padding: 32px 14px 15px; border-radius: 0 0 8px 8px; clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px); background: #f8f6f2; color: #5e1a24; text-decoration: none; font-family: 'Archivo Variable', system-ui, sans-serif; rotate: -2.2deg; transform-origin: 50% -25px; filter: drop-shadow(0 10px 9px rgb(25 3 7 / 0.45)) drop-shadow(0 2px 2px rgb(25 3 7 / 0.3)); transition: rotate 300ms cubic-bezier(0.3, 0.7, 0.4, 1), scale 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-tie:hover { rotate: 3deg; } .ds-tie:active { scale: 0.97; } .ds-tie:focus-visible { outline: 3px solid #f2c230; outline-offset: 4px; } .ds-hole { position: absolute; top: 7px; left: calc(50% - 6.5px); width: 13px; height: 13px; border-radius: 50%; background: #822733; box-shadow: inset 0 2px 3px rgb(25 3 7 / 0.55); } .ds-tile-sm { display: grid; place-items: center; width: 42px; height: 42px; border: 2.5px solid #822733; border-radius: 4px; color: #822733; } .ds-tie-title { margin-top: 12px; font-size: 1.15rem; font-weight: 850; font-stretch: 112%; line-height: 1.05; color: #822733; } .ds-tie-caption { margin-top: 3px; font-size: 0.82rem; font-weight: 500; line-height: 1.3; }"
+    },
+    {
+      "name": "Blister Card",
+      "kind": "card",
+      "refersTo": "card-blister",
+      "description": "Paper hang card with a euro slot and an enlarged icon tile; used for the catalog.",
+      "html": "<a class=\"ds-blister\" href=\"#\"><span class=\"ds-euro\"></span><span class=\"ds-tile-lg\"><svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\" fill=\"none\"><path d=\"M8 16H15.26C19.75 16 20.43 13.18 21.26 9.07C21.5 7.88 21.62 7.29 21.33 6.9C21.05 6.5 20.49 6.5 19.39 6.5H6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><path d=\"M8 16L5.38 3.51C5.16 2.62 4.36 2 3.44 2H2.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/><circle cx=\"10.5\" cy=\"20.5\" r=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.5\"/><circle cx=\"17.5\" cy=\"20.5\" r=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.5\"/></svg></span><span class=\"ds-bl-title\">Catálogo</span><span class=\"ds-bl-caption\">Mirá los productos en WhatsApp</span></a>",
+      "css": ".ds-blister { position: relative; display: flex; flex-direction: column; align-items: flex-start; width: 180px; padding: 32px 14px 18px; border-radius: 10px; background: #f8f6f2; color: #5e1a24; text-decoration: none; font-family: 'Archivo Variable', system-ui, sans-serif; rotate: 1.6deg; transform-origin: 50% -25px; filter: drop-shadow(0 10px 9px rgb(25 3 7 / 0.45)) drop-shadow(0 2px 2px rgb(25 3 7 / 0.3)); transition: rotate 300ms cubic-bezier(0.3, 0.7, 0.4, 1), scale 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-blister:hover { rotate: -3deg; } .ds-blister:active { scale: 0.97; } .ds-blister:focus-visible { outline: 3px solid #f2c230; outline-offset: 4px; } .ds-euro { position: absolute; top: 9px; left: calc(50% - 15px); width: 30px; height: 8px; border-radius: 4px; background: #822733; box-shadow: inset 0 2px 3px rgb(25 3 7 / 0.55); } .ds-euro::before { content: ''; position: absolute; top: -5px; left: 9px; width: 12px; height: 12px; border-radius: 50%; background: inherit; box-shadow: inset 0 2px 3px rgb(25 3 7 / 0.55); } .ds-tile-lg { display: grid; place-items: center; width: 64px; height: 64px; border: 2.5px solid #822733; border-radius: 4px; color: #822733; } .ds-bl-title { margin-top: 12px; font-size: 1.15rem; font-weight: 850; font-stretch: 112%; line-height: 1.05; color: #822733; } .ds-bl-caption { margin-top: 3px; font-size: 0.82rem; font-weight: 500; line-height: 1.3; }"
+    },
+    {
+      "name": "Stand Sign",
+      "kind": "custom",
+      "refersTo": "sign",
+      "description": "Header sign hung from two hooks: logo tile, expanded black name, typed subtitle with blinking caret.",
+      "html": "<div class=\"ds-sign\"><span class=\"ds-sign-logo\"></span><div><p class=\"ds-sign-name\">Ana Vende</p><p class=\"ds-sign-line\">Vos elegís <span class=\"ds-pick\">los auriculares</span><span class=\"ds-caret\"></span></p></div></div>",
+      "css": ".ds-sign { display: grid; grid-template-columns: 76px 1fr; align-items: center; gap: 14px; max-width: 420px; padding: 30px 18px 18px 16px; border-radius: 6px; background: #f8f6f2; font-family: 'Archivo Variable', system-ui, sans-serif; filter: drop-shadow(0 10px 9px rgb(25 3 7 / 0.45)) drop-shadow(0 2px 2px rgb(25 3 7 / 0.3)); } .ds-sign-logo { width: 76px; height: 72px; background: conic-gradient(#822733 0 25%, #f8f6f2 0 50%, #822733 0 75%, #f8f6f2 0); background-size: 50% 50%; border: 2.5px solid #822733; border-radius: 4px; } .ds-sign-name { margin: 0; font-size: 2.5rem; font-weight: 900; font-stretch: 125%; line-height: 0.95; letter-spacing: -0.01em; text-transform: uppercase; color: #822733; } .ds-sign-line { margin: 8px 0 0; font-size: 0.95rem; font-weight: 500; line-height: 1.3; color: #5e1a24; } .ds-pick { font-weight: 800; color: #822733; } .ds-caret { display: inline-block; width: 3px; height: 1.05em; margin-left: 2px; vertical-align: -0.15em; background: #822733; animation: ds-blink 0.8s steps(1) infinite; } @keyframes ds-blink { 50% { opacity: 0; } }"
+    },
+    {
+      "name": "Price Tag",
+      "kind": "chip",
+      "refersTo": "price-label",
+      "description": "Category label hung on a string from the steel wire; pointed left end with a punched hole.",
+      "html": "<div class=\"ds-wire\"><span class=\"ds-price\"><span class=\"ds-string\"></span><span class=\"ds-price-label\">Auriculares</span></span><span class=\"ds-price ds-price--even\"><span class=\"ds-string\"></span><span class=\"ds-price-label\">Joysticks</span></span></div>",
+      "css": ".ds-wire { position: relative; display: flex; gap: 12px; padding: 8px 6px 4px; background: #822733; font-family: 'Archivo Variable', system-ui, sans-serif; } .ds-wire::before { content: ''; position: absolute; top: 8px; left: 0; right: 0; height: 2px; background: #c3c8cc; box-shadow: 0 2px 2px rgb(25 3 7 / 0.35); } .ds-price { position: relative; margin-top: 14px; rotate: -3deg; transform-origin: 22px -14px; } .ds-price--even { rotate: 2.5deg; } .ds-string { position: absolute; top: -14px; left: 21px; width: 1.5px; height: 18px; background: #c3c8cc; } .ds-price-label { position: relative; display: block; padding: 9px 11px 5px 16px; background: #f8f6f2; color: #822733; font-size: 0.78rem; font-weight: 750; font-stretch: 110%; white-space: nowrap; clip-path: polygon(9px 0, 100% 0, 100% 100%, 9px 100%, 0 50%); } .ds-price-label::before { content: ''; position: absolute; top: 3px; left: 19.5px; width: 5px; height: 5px; border-radius: 50%; background: #822733; }"
+    },
+    {
+      "name": "Steel Hook",
+      "kind": "custom",
+      "refersTo": "hook",
+      "description": "J-hook seated in a pegboard hole; stays fixed while the piece below swings.",
+      "html": "<div class=\"ds-board\"><svg class=\"ds-hook\" viewBox=\"0 0 16 46\" width=\"16\" height=\"46\" fill=\"none\"><circle cx=\"8\" cy=\"7\" r=\"6.5\" fill=\"#33090f\"/><circle cx=\"8\" cy=\"7\" r=\"3.6\" fill=\"#c3c8cc\"/><path d=\"M8 9V37C8 41.5 11 43.5 14 41\" stroke=\"#c3c8cc\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg></div>",
+      "css": ".ds-board { width: 140px; height: 84px; background-color: #822733; background-image: radial-gradient(circle at 14px 14px, #4a1219 3.2px, transparent 3.8px), radial-gradient(circle at 14px 15.5px, rgb(255 255 255 / 0.12) 3.4px, transparent 4px); background-size: 28px 28px, 28px 28px; position: relative; } .ds-hook { position: absolute; top: 63px; left: 62px; translate: 0 -56px; filter: drop-shadow(1px 3px 2px rgb(25 3 7 / 0.4)); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Tablero de feria",
+    "overview": "The page is Ana's fair stand, rebuilt as a screen. The whole surface is a bordó pegboard punched with deep-bordó holes on a strict 28px pitch, and everything on it is a physical object: a printed sign hung from two hooks, a wire strung with price tags naming the categories, and the channels as printed card stock hung from steel J-hooks. Nothing floats; every piece hangs from a hole, tilts slightly at rest, and casts a real hanging shadow onto the board.\n\nThe palette is a bordó drench with one sticker-yellow piece. Cards are off-white stock printed in bordó ink; the online store is the single yellow card, the widest piece, hung from two hooks. Type is a single variable family, Archivo, pushed across its width axis: expanded and black for the stand's sign and the store card, near-normal for captions.\n\nMotion is physical and damped. Cards drop onto their hooks with a pendulum settle, swing from the hook when touched or hovered, sway slightly with scroll, and the two-hook store card hops instead of swinging. With reduced motion everything is static and the wire becomes scrollable.",
+    "keyCharacteristics": [
+      "Bordó pegboard drench with a 28px hole grid; hooks snap to real holes.",
+      "Printed paper cards in bordó ink; one yellow card for the primary destination.",
+      "Three die-cut silhouettes: euro-slot sign, euro-slot blister, cut-corner tie tag.",
+      "Two-layer drop shadow on every hung piece; no flat floating panels.",
+      "Single variable family (Archivo) with width as the hierarchy lever.",
+      "Pendulum motion anchored at the hook, fully disabled under reduced motion."
+    ],
+    "rules": [
+      { "name": "The One Sticker Rule", "body": "Sticker Yellow fills exactly one card on the board: the primary destination. Its other uses are interaction states only (focus ring, selection), never decoration or a second card.", "section": "colors" },
+      { "name": "The Printed-In-Bordó Rule", "body": "Paper pieces are printed in the bordó family only (bordo for titles and strokes, ink for running text). No new hues enter the board; the only non-bordó colors are yellow, paper, and steel.", "section": "colors" },
+      { "name": "The Width-Is-Rank Rule", "body": "Hierarchy steps through the width axis (125 / 118 / 112 / 110 / 108 / 100) together with weight. Don't add a second typeface to create contrast.", "section": "typography" },
+      { "name": "The Everything-Hangs Rule", "body": "A piece on the board hangs from a hook in a hole and casts the hanging drop. No piece floats flat on the board without hardware.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do hang every new piece from a hook whose center snaps to the 28px hole grid, with a matching slot cut into the piece.",
+      "Do give every hung piece the two-layer hanging drop and a small resting tilt.",
+      "Do print new cards on paper in bordó and ink, with an icon in a stroked bordó tile.",
+      "Do rank type through Archivo's width axis and weight before reaching for size.",
+      "Do anchor all motion at the hook (transform origin above the piece) and turn it all off under reduced motion."
+    ],
+    "donts": [
+      "Don't stack the channels as a vertical column of identical pill buttons.",
+      "Don't fill a second card with Sticker Yellow; it marks only the primary destination.",
+      "Don't introduce hues outside the bordó family, paper, yellow, and steel.",
+      "Don't lay a piece flat on the board without a hook, slot, and hanging shadow.",
+      "Don't add a second typeface."
+    ]
+  }
+}

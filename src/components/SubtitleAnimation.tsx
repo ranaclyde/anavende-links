@@ -7,20 +7,29 @@ const SubtitleAnimation = () => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [loopIndex, setLoopIndex] = useState<number>(0);
   const [typingSpeed, setTypingSpeed] = useState<number>(100);
+  const [reduced, setReduced] = useState<boolean>(false);
 
   useEffect(() => {
-    const current: string = animatedSubtitle[loopIndex % animatedSubtitle.length];
+    setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+
+  useEffect(() => {
+    if (reduced) return;
+
+    // Array.from separa por caracteres reales, sin partir tildes ni símbolos
+    const current: string[] = Array.from(animatedSubtitle[loopIndex % animatedSubtitle.length]);
+    const typed = Array.from(text);
 
     const handleTyping = () => {
       if (isDeleting) {
-        setText((prev) => prev.slice(0, prev.length - 1));
+        setText(typed.slice(0, -1).join(''));
         setTypingSpeed(50);
       } else {
-        setText((prev) => current.slice(0, prev.length + 1));
+        setText(current.slice(0, typed.length + 1).join(''));
         setTypingSpeed(100);
       }
 
-      if (!isDeleting && text === current) {
+      if (!isDeleting && typed.length === current.length) {
         setTimeout(() => setIsDeleting(true), 1000);
       } else if (isDeleting && text === '') {
         setIsDeleting(false);
@@ -30,12 +39,15 @@ const SubtitleAnimation = () => {
 
     const timeout = setTimeout(handleTyping, typingSpeed);
     return () => clearTimeout(timeout);
-  }, [text, isDeleting, loopIndex]);
+  }, [text, isDeleting, loopIndex, reduced]);
 
   return (
-    <p className="text-gray-500 text-lg text-center">
-      <span>Vos elegís {text}</span>
-      <span className="cursor-blink border-r-2 border-black ml-1" />
+    <p className="sign-line">
+      <span className="sr-only">Vos elegís {animatedSubtitle[0]}</span>
+      <span aria-hidden="true">
+        Vos elegís <span className="sign-pick">{reduced ? animatedSubtitle[0] : text}</span>
+        {!reduced && <span className="cursor-blink" />}
+      </span>
     </p>
   )
 }

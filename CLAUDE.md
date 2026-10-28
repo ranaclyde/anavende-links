@@ -23,16 +23,16 @@ Package manager is **pnpm** (version pinned via `packageManager` in `package.jso
 
 ## Architecture
 
-**Content lives in `data.json`, not in components.** The page name, the typewriter subtitle phrases (`animatedSubtitle`), and the link buttons (`links`) are all read from it via the `@data` path alias. To change what the page shows, edit `data.json`. (`socials` is currently unused — its footer rendering is commented out in `src/pages/index.astro`.)
+**Content lives in `data.json`, not in components.** The page name, the typewriter subtitle phrases (`animatedSubtitle`), and the link cards (`links`) are all read from it via the `@data` path alias. Each link has `title`/`caption` (shown on the card), `text` (accessible label), `icon`, `url`; the first entry is the featured store card (`featured`, `action`). To change what the page shows, edit `data.json`. (`socials` is currently unused — its footer rendering is commented out in `src/pages/index.astro`.)
 
 Path aliases (`tsconfig.json`): `@data` → `./data.json`, `@/*` → `src/*`.
 
-Rendering flow: `src/pages/index.astro` (the only page) → wraps content in `src/layouts/Layout.astro` (SEO/Open Graph meta, favicons, global CSS) → maps `links` to `src/components/ui/Link.astro`.
+Rendering flow: `src/pages/index.astro` (the only page) → wraps content in `src/layouts/Layout.astro` (SEO/Open Graph meta, favicons, font, global CSS) → renders the stand sign, then maps `links` to `src/components/ui/HangCard.astro` (the first link renders as the large featured card).
 
-**Link icons are resolved by string key.** Each `links[].icon` in `data.json` must match a key in the `icons` map inside `src/components/ui/Link.astro` (`shop`, `instagram`, `facebook`, `whatsapp`). Unknown keys render the button without an icon. Adding a new icon means creating an SVG component in `src/icons/` (taking a `class` prop) and registering it in that map.
+**Link icons are resolved by string key.** Each `links[].icon` in `data.json` must match a key in the `icons` map inside `src/components/ui/HangCard.astro` (`web`, `shop`, `instagram`, `facebook`, `whatsapp`). Unknown keys render the button without an icon. Adding a new icon means creating an SVG component in `src/icons/` (taking a `class` prop) and registering it in that map.
 
-**React is used only for interactivity**: `src/components/SubtitleAnimation.tsx` (typewriter effect) is hydrated with `client:load`. Everything else is static `.astro`.
+**Visual world: "Tablero de feria"** — the page is a fair-stand pegboard in brand bordó (`#822733`) with channels hanging as cards on hooks. All styling and design tokens (CSS custom properties) live in `src/styles/global.css` as plain CSS classes, not Tailwind utilities; Tailwind v4 is loaded only for preflight and `sr-only`. Font is Archivo variable (self-hosted via `@fontsource-variable/archivo`, using its width axis). Product context is in `PRODUCT.md`; design-direction notes live under `.impeccable/`.
 
-Styling is Tailwind v4 via the Vite plugin (`astro.config.mjs`) — there is no `tailwind.config.js`; custom CSS (e.g. the `.cursor-blink` animation) goes in `src/styles/global.css`. Brand colors are hardcoded as arbitrary values (`#bf3b4d`/`#cf4053` button gradient, `#e3e3e3` background).
+**Motion**: CSS keyframes in `global.css` (card drop/swing/nudge) plus a small inline script in `index.astro` that sets `--sway` from scroll velocity and swings cards on `pointerdown`. All of it is disabled under `prefers-reduced-motion`. **React is used only for** `src/components/SubtitleAnimation.tsx` (typewriter), hydrated with `client:load`.
 
 Static assets (logo `anavende_logo.png`, favicons, `site.webmanifest`) live in `public/`. The site URL and OG image URL are hardcoded in `Layout.astro`.
