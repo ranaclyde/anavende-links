@@ -22,3 +22,11 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# impeccable: bocetos, capturas y estado de rondas de diseño (locales)
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/questions/
+.impeccable/build/
+.impeccable/decision-payload.json
+.impeccable/config.local.json

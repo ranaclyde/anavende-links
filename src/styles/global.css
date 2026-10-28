@@ -1,11 +1,521 @@
 @import "tailwindcss";
 
-@keyframes blink {
-  0%, 100% { opacity: 1 }
-  50% { opacity: 0 }
+/* Tablero de feria: panel perforado bordó con tarjetas colgadas */
+:root {
+  --bordo: #822733;
+  --bordo-deep: #4a1219;
+  --ink: #5e1a24;
+  --paper: #f8f6f2;
+  --sun: #f2c230;
+  --rose: #f3dade;
+  --steel: #c3c8cc;
+  --drop: drop-shadow(0 10px 9px rgb(25 3 7 / 0.45)) drop-shadow(0 2px 2px rgb(25 3 7 / 0.3));
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --sway: 0deg;
+  /* Separación entre los dos ganchos de una pieza ancha: 8 agujeros */
+  --span: 112px;
+
+  color-scheme: light;
+  scrollbar-color: var(--bordo-deep) var(--bordo);
+}
+
+html {
+  overflow-x: clip;
+  background-color: var(--bordo);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: "Archivo Variable", system-ui, sans-serif;
+  color: var(--ink);
+  background-color: var(--bordo);
+  /* Agujeros cada 28px con centro en 14 + 28k (el script calza los ganchos ahí) */
+  background-image:
+    radial-gradient(ellipse 120% 50% at 50% -5%, rgb(255 255 255 / 0.07), transparent 70%),
+    radial-gradient(circle at 14px 14px, var(--bordo-deep) 3.2px, transparent 3.8px),
+    radial-gradient(circle at 14px 15.5px, rgb(255 255 255 / 0.12) 3.4px, transparent 4px);
+  background-size: 100% 100%, 28px 28px, 28px 28px;
+  background-position: 0 0;
+}
+
+::selection {
+  background: var(--sun);
+  color: var(--bordo-deep);
+}
+
+.board {
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: max(44px, calc(env(safe-area-inset-top) + 32px)) 18px max(28px, env(safe-area-inset-bottom));
+}
+
+/* Piezas colgadas: el gancho queda fijo y solo la pieza se mece */
+.hang {
+  position: relative;
+  translate: 0 var(--hy, 0px);
+  list-style: none;
+}
+
+.hook {
+  position: absolute;
+  z-index: 3;
+  top: -32px;
+  left: calc(50% - 8px + var(--hx, 0px));
+  filter: drop-shadow(1px 3px 2px rgb(25 3 7 / 0.4));
+  pointer-events: none;
+}
+.hook--left {
+  left: calc(50% - var(--span) - 8px + var(--hx, 0px));
+}
+.hook--right {
+  left: calc(50% + var(--span) - 8px + var(--hx, 0px));
+}
+
+.swing {
+  height: 100%;
+  rotate: calc(var(--tilt, 0deg) + var(--sway));
+  transform-origin: calc(50% + var(--hx, 0px)) -25px;
+  filter: var(--drop);
+}
+
+/* Ranura de colgar: troquel tipo "euro" (píldora con un círculo arriba) */
+.slot {
+  position: absolute;
+  top: 9px;
+  left: calc(50% + var(--hx, 0px) - 15px);
+  width: 30px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--bordo);
+  box-shadow: inset 0 2px 3px rgb(25 3 7 / 0.55);
+}
+.slot::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 9px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: inherit;
+  box-shadow: inset 0 2px 3px rgb(25 3 7 / 0.55);
+}
+.slot--left {
+  left: calc(50% - var(--span) + var(--hx, 0px) - 15px);
+}
+.slot--right {
+  left: calc(50% + var(--span) + var(--hx, 0px) - 15px);
+}
+
+/* Cartel del puesto */
+.sign {
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 30px 18px 18px 16px;
+  background: var(--paper);
+  border-radius: 6px;
+  filter: var(--drop);
+  animation: sign-in 700ms var(--ease-out) both;
+}
+
+.sign-logo {
+  width: 76px;
+  height: auto;
+}
+
+.sign-text {
+  min-width: 0;
+}
+
+.sign-name {
+  margin: 0;
+  font-size: clamp(1.75rem, 8.6vw, 2.5rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--bordo);
+}
+
+.sign-line {
+  margin: 8px 0 0;
+  min-height: 2.6em;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.sign-pick {
+  font-weight: 800;
+  color: var(--bordo);
 }
 
 .cursor-blink {
-  @apply border-r-2 border-gray-500 ml-1;
-  animation: blink 0.7s steps(1) infinite;
+  display: inline-block;
+  width: 3px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--bordo);
+  animation: blink 0.8s steps(1) infinite;
+}
+
+/* Alambre con etiquetas de precio de los rubros */
+.rail {
+  position: relative;
+  /* El alambre cruza todo el tablero, no solo la columna */
+  margin: 22px calc(50% - 50vw) 0;
+  padding-top: 8px;
+  overflow: hidden;
+}
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--steel);
+  box-shadow: 0 2px 2px rgb(25 3 7 / 0.35);
+}
+
+.rail-track {
+  display: flex;
+  width: max-content;
+  animation: rail 38s linear infinite;
+}
+
+.rail-set {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0 6px;
+  list-style: none;
+}
+
+.price-tag {
+  position: relative;
+  margin-top: 14px;
+  rotate: -3deg;
+  transform-origin: 22px -14px;
+}
+.price-label {
+  display: block;
+  padding: 9px 11px 5px 16px;
+  background: var(--paper);
+  color: var(--bordo);
+  font-size: 0.78rem;
+  font-weight: 750;
+  font-stretch: 110%;
+  white-space: nowrap;
+  clip-path: polygon(9px 0, 100% 0, 100% 100%, 9px 100%, 0 50%);
+}
+.price-tag-string {
+  position: absolute;
+  top: -14px;
+  left: 21px;
+  width: 1.5px;
+  height: 18px;
+  background: var(--steel);
+}
+.price-tag:nth-child(even) {
+  rotate: 2.5deg;
+}
+.price-label::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 19.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--bordo);
+}
+
+/* Tarjetas de los canales */
+.hooks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 50px 14px;
+  margin: 58px 0 0;
+  padding: 0;
+}
+
+.hang--featured {
+  grid-column: 1 / -1;
+}
+
+/* Si queda una tarjeta sola en la última fila, cuelga centrada */
+.hooks > .hang:last-child:nth-child(even) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(62%, 240px);
+}
+
+.hang--tie:nth-child(3) {
+  margin-top: 28px;
+}
+.hang--tie:nth-child(4) {
+  width: 88%;
+}
+.hang--tie:nth-child(5) {
+  width: 94%;
+  justify-self: end;
+}
+
+.tag {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 14px 15px;
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  transform-origin: calc(50% + var(--hx, 0px)) -25px;
+  animation: hang-drop 1150ms cubic-bezier(0.25, 0.8, 0.35, 1) both;
+  animation-delay: calc(var(--i) * 90ms + 260ms);
+  transition: scale 160ms var(--ease-out);
+}
+
+.tag:active {
+  scale: 0.97;
+}
+
+.tag:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 4px;
+}
+
+/* Etiqueta de atar: esquinas superiores cortadas y agujero redondo */
+.hang--tie .tag {
+  border-radius: 0 0 8px 8px;
+  clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px);
+}
+.hang--tie .slot {
+  width: 13px;
+  height: 13px;
+  top: 7px;
+  margin-left: 8.5px;
+  border-radius: 50%;
+}
+.hang--tie .slot::before {
+  content: none;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 2.5px solid var(--bordo);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--bordo);
+}
+
+.tile-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.tag-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tag-title {
+  margin-top: 12px;
+  font-size: 1.15rem;
+  font-weight: 850;
+  font-stretch: 112%;
+  line-height: 1.05;
+  color: var(--bordo);
+}
+
+.tag-caption {
+  margin-top: 3px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+/* Blíster: el catálogo, más alto y con el ícono grande */
+.hang--blister .tag {
+  padding-bottom: 18px;
+}
+.hang--blister .tile {
+  width: 64px;
+  height: 64px;
+}
+.hang--blister .tile-icon {
+  width: 36px;
+  height: 36px;
+}
+
+/* Tienda online: la pieza grande y amarilla, colgada de dos ganchos */
+.hang--featured .tag {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  column-gap: 14px;
+  align-items: center;
+  padding: 34px 18px 18px;
+  background: var(--sun);
+  color: var(--bordo-deep);
+  animation-delay: 260ms;
+}
+
+.hang--featured .swing {
+  animation: nudge 7s ease-in-out 4.5s infinite;
+}
+
+.hang--featured .tile {
+  width: 56px;
+  height: 56px;
+  border-color: var(--bordo-deep);
+  color: var(--bordo-deep);
+}
+.hang--featured .tile-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.hang--featured .tag-title {
+  margin-top: 0;
+  font-size: clamp(1.6rem, 7.4vw, 2rem);
+  font-weight: 900;
+  font-stretch: 118%;
+  letter-spacing: -0.01em;
+  color: var(--bordo-deep);
+}
+
+.hang--featured .tag-caption {
+  margin-top: 2px;
+  font-size: 1rem;
+  font-weight: 650;
+  color: var(--bordo-deep);
+}
+
+.tag-action {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 16px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--bordo);
+  color: var(--paper);
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-stretch: 108%;
+}
+
+.tag-action svg {
+  transition: translate 300ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tag:hover .tag-action svg {
+    translate: 4px 0;
+  }
+}
+
+/* Al tocarla, la pieza oscila en su gancho; la de dos ganchos rebota */
+.swing.is-swinging {
+  animation: swing 950ms cubic-bezier(0.3, 0.7, 0.4, 1);
+}
+.hang--featured .swing.is-swinging {
+  animation: hop 650ms var(--ease-out);
+}
+
+.foot {
+  margin-top: 44px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--rose);
+}
+.foot p {
+  margin: 0;
+}
+
+@keyframes sign-in {
+  from {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes hang-drop {
+  0% { transform: translateY(-30px) rotate(7deg); }
+  32% { transform: translateY(0) rotate(-5deg); }
+  52% { transform: rotate(3deg); }
+  70% { transform: rotate(-1.6deg); }
+  85% { transform: rotate(0.6deg); }
+  100% { transform: none; }
+}
+
+@keyframes swing {
+  0% { transform: none; }
+  16% { transform: rotate(6deg); }
+  36% { transform: rotate(-4.2deg); }
+  54% { transform: rotate(2.6deg); }
+  70% { transform: rotate(-1.4deg); }
+  85% { transform: rotate(0.6deg); }
+  100% { transform: none; }
+}
+
+@keyframes hop {
+  0% { transform: none; }
+  30% { transform: translateY(-7px); }
+  60% { transform: translateY(2px); }
+  80% { transform: translateY(-1.5px); }
+  100% { transform: none; }
+}
+
+/* Un saltito cada tanto para que la tienda llame la atención */
+@keyframes nudge {
+  0%, 86%, 100% { transform: none; }
+  89% { transform: translateY(-6px); }
+  93% { transform: translateY(1.5px); }
+  96% { transform: translateY(-1px); }
+}
+
+@keyframes rail {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign,
+  .tag,
+  .swing,
+  .hang--featured .swing,
+  .rail-track {
+    animation: none !important;
+  }
+  .rail {
+    overflow-x: auto;
+  }
 }

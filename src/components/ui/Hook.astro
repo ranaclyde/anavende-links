@@ -1,0 +1,25 @@
+---
+// Gancho de tablero: bola metida en el agujero y alambre en J
+interface Props {
+  side?: 'left' | 'right' | 'center'
+}
+
+const { side = 'center' } = Astro.props
+---
+
+<svg
+  class={`hook hook--${side}`}
+  viewBox="0 0 16 46"
+  width="16"
+  height="46"
+  fill="none"
+  aria-hidden="true"
+>
+  <circle cx="8" cy="7" r="6.5" style="fill: var(--bordo-deep)"></circle>
+  <circle cx="8" cy="7" r="3.6" style="fill: var(--steel)"></circle>
+  <path
+    d="M8 9V37C8 41.5 11 43.5 14 41"
+    style="stroke: var(--steel)"
+    stroke-width="3"
+    stroke-linecap="round"></path>
+</svg>

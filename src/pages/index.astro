@@ -2,56 +2,170 @@
 // Components
 import Layout from '@/layouts/Layout.astro'
 import SubtitleAnimation from '@/components/SubtitleAnimation.tsx'
-import Switch from '@/components/ui/Switch.astro'
-import Link from '@/components/ui/Link.astro'
+import HangCard from '@/components/ui/HangCard.astro'
+import Hook from '@/components/ui/Hook.astro'
 
 // Other
-import { name, links } from '@data'
+import { name, links, animatedSubtitle } from '@data'
+
+const [featured, ...rest] = links
+const year = new Date().getFullYear()
+
+// Rubros para las etiquetas de precio: "los auriculares" -> "Auriculares"
+const categories = animatedSubtitle
+  .slice(1)
+  .map((phrase) => phrase.replace(/^(los|las|la)\s+/i, ''))
+  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 ---
 
 <Layout>
-  <div class="flex flex-col items-center flex-1 w-full">
-    <!-- Profile -->
-    <div class="flex flex-col items-center justify-center mt-8">
-      <img
-        src="/anavende_logo.png"
-        alt="avatar"
-        class="w-28 h-28 shadow-xl border-4 border-white object-contain bg-[#F9F4F0]"
-      />
-      <h1 class="mt-2 mb-1 text-3xl font-bold text-[#222] uppercase">{name}</h1>
-    </div>
-    <div class="w-full max-w-xl">
-      <SubtitleAnimation client:load />
-    </div>
-    <!-- Buttons -->
-    <div class="w-full max-w-xl flex flex-col gap-5 mt-8">
-      {
-        links.map((link) => (
-          <Link href={link.url} text={link.text} icon={link.icon} />
-        ))
-      }
-    </div>
+  <main class="board">
+    <!-- Cartel del puesto -->
+    <header class="hang hang--sign">
+      <Hook side="left" />
+      <Hook side="right" />
+      <div class="sign">
+        <span class="slot slot--left" aria-hidden="true"></span>
+        <span class="slot slot--right" aria-hidden="true"></span>
+        <img
+          src="/anavende_logo.png"
+          alt=""
+          width="1180"
+          height="1128"
+          class="sign-logo"
+        />
+        <div class="sign-text">
+          <h1 class="sign-name">{name}</h1>
+          <SubtitleAnimation client:load />
+        </div>
+      </div>
+    </header>
 
-    <footer
-      class="w-full max-w-xl mx-auto mt-12 flex flex-col items-center gap-3 pb-6"
-    >
-      <!--
-      <div class="flex flex-row gap-4 mb-2">
+    <!-- Rubros colgados de un alambre -->
+    <div class="rail">
+      <p class="sr-only">Vendo {categories.join(', ').toLowerCase()}.</p>
+      <div class="rail-track" aria-hidden="true">
         {
-          socials.map((s) => (
-            <a
-              href={s.url}
-              target="_blank"
-              rel="noopener"
-              class="w-10 h-10 bg-[#3b3b3b] text-white rounded-full flex items-center justify-center shadow-md text-xl hover:scale-110 transition"
-            >
-              <Instagram />
-            </a>
+          [0, 1].map(() => (
+            <ul class="rail-set">
+              {categories.map((category) => (
+                <li class="price-tag">
+                  <span class="price-tag-string" />
+                  <span class="price-label">{category}</span>
+                </li>
+              ))}
+            </ul>
           ))
         }
       </div>
-       -->
-      <p class="text-gray-500 text-sm">©2025 - AnaVende</p>
+    </div>
+
+    <!-- Canales colgados del tablero -->
+    <ul class="hooks" aria-label="Dónde encontrarme">
+      <HangCard
+        index={0}
+        href={featured.url}
+        title={featured.title}
+        caption={featured.caption}
+        label={featured.text}
+        icon={featured.icon}
+        action={featured.action}
+        featured
+      />
+      {
+        rest.map((link, i) => (
+          <HangCard
+            index={i + 1}
+            href={link.url}
+            title={link.title}
+            caption={link.caption}
+            label={link.text}
+            icon={link.icon}
+            shape={link.shape}
+          />
+        ))
+      }
+    </ul>
+
+    <footer class="foot">
+      <p>© {year} Ana Vende</p>
     </footer>
-  </div>
+  </main>
 </Layout>
+
+<script>
+  // Cada gancho se calza en el agujero más cercano del tablero (paso de 28px)
+  const PITCH = 28
+  const OFFSET = 14
+  const hangs = document.querySelectorAll<HTMLElement>('.hang')
+
+  const snapHooks = () => {
+    hangs.forEach((hang) => {
+      hang.style.setProperty('--hx', '0px')
+      hang.style.setProperty('--hy', '0px')
+    })
+    hangs.forEach((hang) => {
+      const hook = hang.querySelector<SVGElement>('.hook')
+      if (!hook) return
+      const rect = hook.getBoundingClientRect()
+      const x = rect.left + rect.width / 2 + window.scrollX
+      const y = rect.top + rect.width / 2 + window.scrollY
+      const snap = (v: number) => OFFSET + Math.round((v - OFFSET) / PITCH) * PITCH
+      hang.style.setProperty('--hx', `${snap(x) - x}px`)
+      hang.style.setProperty('--hy', `${snap(y) - y}px`)
+    })
+  }
+
+  snapHooks()
+  document.fonts?.ready.then(snapHooks)
+  window.addEventListener('resize', snapHooks)
+
+  // Balanceo de las tarjetas: el scroll las mece y el toque las hace oscilar
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+  if (!reduced.matches) {
+    const root = document.documentElement
+    let lastY = window.scrollY
+    let sway = 0
+    let target = 0
+    let frame = 0
+
+    const tick = () => {
+      sway += (target - sway) * 0.12
+      target *= 0.88
+      root.style.setProperty('--sway', `${sway.toFixed(3)}deg`)
+      if (Math.abs(sway) > 0.01 || Math.abs(target) > 0.01) {
+        frame = requestAnimationFrame(tick)
+      } else {
+        root.style.setProperty('--sway', '0deg')
+        frame = 0
+      }
+    }
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        const y = window.scrollY
+        target = Math.max(-5, Math.min(5, target + (y - lastY) * 0.06))
+        lastY = y
+        if (!frame) frame = requestAnimationFrame(tick)
+      },
+      { passive: true },
+    )
+
+    document.querySelectorAll<HTMLElement>('.hooks .swing').forEach((swing) => {
+      const start = () => {
+        swing.classList.remove('is-swinging')
+        void swing.offsetWidth
+        swing.classList.add('is-swinging')
+      }
+      swing.addEventListener('pointerdown', start)
+      swing.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse') start()
+      })
+      swing.addEventListener('animationend', (e) => {
+        if (e.target === swing) swing.classList.remove('is-swinging')
+      })
+    })
+  }
+</script>

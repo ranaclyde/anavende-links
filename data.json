@@ -1,36 +1,49 @@
 {
   "name": "Ana Vende",
   "animatedSubtitle": [
-    "La Tecnología",
-    "Los Auriculares 🎧",
-    "Los Joysticks 🎮",
-    "Los Cables 🔌",
-    "Los Parlantes 🔊",
-    "Los Teclados ⌨️",
-    "Los Mouses 🖱️",
-    "Los Pendrives 💾",
-    "Las Consolas 🕹️"
+    "la tecnología",
+    "los auriculares",
+    "los joysticks",
+    "los cables",
+    "los parlantes",
+    "los teclados",
+    "los mouses",
+    "los pendrives",
+    "las consolas"
   ],
   "links": [
     {
+      "title": "Catálogo",
+      "caption": "Mirá los productos en WhatsApp",
       "text": "Mi catálogo de productos",
       "icon": "shop",
-      "url": "https://wa.me/c/5492920408825"
+      "url": "https://wa.me/c/5492920408825",
+      "featured": true,
+      "action": "Ver el catálogo"
     },
     {
+      "title": "Instagram",
+      "caption": "@ana.vende",
       "text": "Seguime en Instagram",
       "icon": "instagram",
-      "url": "https://instagram.com/ana.vende?igshid=dze5uaqztf6b"
+      "url": "https://instagram.com/ana.vende?igshid=dze5uaqztf6b",
+      "shape": "tie"
     },
     {
+      "title": "Facebook",
+      "caption": "Seguime",
       "text": "Seguime en Facebook",
       "icon": "facebook",
-      "url": "https://www.facebook.com/share/1DkJhA2h81/"
+      "url": "https://www.facebook.com/share/1DkJhA2h81/",
+      "shape": "tie"
     },
     {
+      "title": "WhatsApp",
+      "caption": "Escribime",
       "text": "Escribime a mi WhatsApp",
       "icon": "whatsapp",
-      "url": "https://wa.link/fy395o"
+      "url": "https://wa.link/fy395o",
+      "shape": "blister"
     }
   ],
   "socials": [
